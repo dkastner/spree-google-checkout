@@ -43,6 +43,7 @@ class GoogleCheckoutNotificationController < ApplicationController
           
           ship_method = ShippingMethod.find_by_name(notification.order_adjustment.shipping.name)      
           @order.shipment.update_attribute(:shipping_method, ship_method)
+          @order.checkout.shipping_method = ship_method
           
           @order.complete!
         end
