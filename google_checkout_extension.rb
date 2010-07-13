@@ -4,8 +4,8 @@ begin
 rescue MissingSourceFile
    require_dependency 'application'
 end
-require 'ruby-hmac'
-require 'ruby-hmac/sha1'
+require 'hmac'
+require 'hmac/sha1'
 
 class GoogleCheckoutExtension < Spree::Extension
   version "1.0"
