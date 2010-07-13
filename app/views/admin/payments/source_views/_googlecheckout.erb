@@ -1,0 +1,16 @@
+<fieldset>
+  <legend>Google Checkout</legend>
+  <table class="index">
+    <tr>
+      <th colspan="6">Details</th>
+    </tr>
+    <tr>
+      <td><label><%= t('start_date') %>:</label></td>
+      <td colspan="3">
+        <%= payment.source.start_month %>/<%= payment.source.start_year %>
+      </td>
+    </tr>
+  </table>
+</fieldset>
+
+<%= render 'transaction_list', :txns => payment.txns %>
