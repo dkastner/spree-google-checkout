@@ -7,14 +7,15 @@ module GoogleCheckout
 
     begin
       notification = handler.handle(post)
-      case notification.class
+      text = case notification.class
       when Google4R::Checkout::NewOrderNotification then
         new_order_notification(notification, params)
       when Google4R::Checkout::ChargeAmountNotification then
         charge_amount_notification(notification)
       else
-        render :text => 'ignoring unhandled notification type', :status => 200
+        'ignoring unhandled notification type'
       end
+      render text, :status => 200
     rescue Google4R::Checkout::UnknownNotificationType => e
       # This can happen if Google adds new commands and Google4R has not been
       # upgraded yet. It is not fatal.
@@ -27,8 +28,7 @@ module GoogleCheckout
     begin
       order = Order.find_by_id(order_number)
     rescue ActiveRecord::RecordNotFound
-      render :text => 'Could not find that order - probably originated at Google', :status => 200
-      return
+      return 'Could not find that order - probably originated at Google'
     end
     
     unless order.allow_pay?
@@ -66,7 +66,7 @@ module GoogleCheckout
       
       order.complete!
     end
-    render :text => 'proccessed NewOrderNotification'
+    'proccessed NewOrderNotification'
   end
 
   def charge_amount_notification(notification, params)
@@ -74,7 +74,7 @@ module GoogleCheckout
     payment = Payment.new(:amount => notification.latest_charge_amount)
     payment.order = order
     payment.save
-    render :text => 'proccessed ChargeAmountNotification' and return
+    'proccessed ChargeAmountNotification'
   end
 
   def frontend
