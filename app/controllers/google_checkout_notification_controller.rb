@@ -2,7 +2,8 @@ class GoogleCheckoutNotificationController < ApplicationController
   protect_from_forgery :except => :create
   
   def create
-    GoogleCheckout.handle_notification(request.raw_post, params)
+    text = GoogleCheckout.handle_notification(request.raw_post, params)
+    render :text => text, :status => 200
   end
  
   private

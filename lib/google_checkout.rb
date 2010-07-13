@@ -15,11 +15,11 @@ module GoogleCheckout
       else
         'ignoring unhandled notification type'
       end
-      render text, :status => 200
+      return text
     rescue Google4R::Checkout::UnknownNotificationType => e
       # This can happen if Google adds new commands and Google4R has not been
       # upgraded yet. It is not fatal.
-      render :text => 'ignoring unknown notification type', :status => 200
+      return 'ignoring unknown notification type'
     end
   end
 
