@@ -46,7 +46,7 @@ class GoogleCheckoutExtension < Spree::Extension
               
       def charge_google_order
         begin
-          @frontend = get_google_checkout_frontend
+          @frontend = GoogleCheckout.frontend
           if @frontend 
             order = @frontend.create_charge_order_command
             o = Order.find_by_number(params[:id])
@@ -68,7 +68,7 @@ class GoogleCheckoutExtension < Spree::Extension
     
       def cancel_google_checkout_order
         begin
-          @frontend = get_google_checkout_frontend
+          @frontend = GoogleCheckout.frontend
           if @frontend    
             order = @frontend.create_cancel_order_command
             o = Order.find_by_number(params[:id])
@@ -95,8 +95,8 @@ class GoogleCheckoutExtension < Spree::Extension
       include GoogleCheckout::ControllerExtender
       
       def edit
-        @frontend = get_google_checkout_frontend 
-        if @frontend     
+        @frontend = GoogleCheckout.frontend 
+        if @frontend
           checkout_command = @frontend.create_checkout_command
           # Adding an item to shopping cart
           @order.line_items.each do |l|
@@ -122,9 +122,7 @@ class GoogleCheckoutExtension < Spree::Extension
               end
             end       
           end 
-          @response = checkout_command.to_xml #send_to_google_checkout
-
-          # puts "===========#{request.raw_post}"
+          @response = checkout_command.to_xml
        end
      end
      
