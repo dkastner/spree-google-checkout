@@ -42,8 +42,6 @@ class GoogleCheckoutExtension < Spree::Extension
     end
     
     Admin::OrdersController.class_eval do
-      include GoogleCheckout::ControllerExtender
-              
       def charge_google_order
         begin
           @frontend = GoogleCheckout.frontend
@@ -92,7 +90,6 @@ class GoogleCheckoutExtension < Spree::Extension
     
     OrdersController.class_eval do
       helper :google_checkout
-      include GoogleCheckout::ControllerExtender
       
       def edit
         @frontend = GoogleCheckout.frontend 
